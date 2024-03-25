@@ -92,3 +92,17 @@ class PrescriptionStack:
 
 
 
+
+
+
+# Add New Patient Record Function
+def addPatientRec(patient, patientQueue):
+    patientQueue.enqueue(patient)  # Enqueue the new patient into the patient queue
+    print("Patient record added successfully.")  # Print a success message
+
+
+
+
+
+
+
