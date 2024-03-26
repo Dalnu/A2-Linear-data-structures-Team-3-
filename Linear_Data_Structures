@@ -1,5 +1,12 @@
+class Doctor:
+    """Class represent a doctor"""
+    def __init__(self, name, specialization):
+        self.name = name  # Initialize the name attribute of the doctor
+        self.specialization = specialization  # Initialize the specialization attribute of the doctor
+
 # Define the PatientRec class to represent patient records
 class PatientRec:
+    """Class represent the patient records"""
     def __init__(self, name, dob, contactInfo, medicalHistory = None, currCondition = None, docAssigned = None, appointmentDetails = None, medications = None):
         # Initialize patient attributes
         self.name = name  # Patient's name
@@ -21,6 +28,7 @@ class PatientRec:
 
 # Define the Node class for the queue implementation
 class Node:
+    """Class represent the node"""
     def __init__(self, data):
         # Initialize the node with data and a reference to the next node
         self.data = data  # Data stored in the node
@@ -28,6 +36,7 @@ class Node:
 
 # Define the Queue class to implement a queue using linked list
 class Queue:
+    """Class represent a queue"""
     def __init__(self):
         # Initialize the queue with front and rear pointers
         self.front = None  # Pointer to the front of the queue
@@ -63,6 +72,12 @@ class Queue:
     # Method to check if the queue is empty
     def isEmpty(self):
         return self.front is None  # Return True if the front pointer is None, indicating an empty queue
+    # Method to make the queue iterable
+    def __iter__(self):
+        current = self.front
+        while current:
+            yield current.data
+            current = current.next
 
 # Define the PrescriptionStack class to implement a stack for prescriptions
 class PrescriptionStack:
@@ -88,21 +103,3 @@ class PrescriptionStack:
     # Method to check if the stack is empty
     def isEmpty(self):
         return len(self.stack) == 0  # Return True if the stack is empty, False otherwise
-
-
-
-
-
-
-
-# Add New Patient Record Function
-def addPatientRec(patient, patientQueue):
-    patientQueue.enqueue(patient)  # Enqueue the new patient into the patient queue
-    print("Patient record added successfully.")  # Print a success message
-
-
-
-
-
-
-
