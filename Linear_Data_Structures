@@ -103,3 +103,71 @@ class PrescriptionStack:
     # Method to check if the stack is empty
     def isEmpty(self):
         return len(self.stack) == 0  # Return True if the stack is empty, False otherwise
+
+
+
+# Add New Patient Record Function
+def addPatientRec(patient, patientQueue):
+    patientQueue.enqueue(patient)  # Enqueue the new patient into the patient queue
+    print("Patient record added successfully.")  # Print a success message
+
+# Update Patient Record Function
+def updatePatient(patient, patientQueue):
+    updatedPatient = None  # Initialize updatedPatient to None
+    tempQueue = Queue()  # Initialize a temporary queue
+    found_patient = False  # Flag to track if the patient was found
+    while not patientQueue.is_empty():
+        currPatient = patientQueue.dequeue()  # Dequeue the current patient
+        if currPatient.name == patient.name:  # Check if the current patient matches the provided patient
+            found_patient = True  # Set found_patient flag to True
+            print("Patient found. Here is the information:")
+            print("Name:", currPatient.name)
+            print("Date of Birth:", currPatient.dob)
+            print("Contact Info:", currPatient.contactInfo)
+            print("Medical History:", currPatient.medicalHistory)
+            print("Current Condition:", currPatient.currCondition)
+            print("Doctor Assigned:", currPatient.docAssigned)
+            print("Appointment Details:", currPatient.appointmentDetails)
+            print("Medications:", currPatient.medications)
+
+            # Prompt user to select the section to update
+            print("\nWhich section would you like to update?")
+            print("1. Medical History")
+            print("2. Current Condition")
+            print("3. Doctor Assigned")
+            print("4. Appointment Details")
+            print("5. Medications")
+            section_choice = input("Enter your choice (1-5): ")
+
+            # Update the selected section
+            if section_choice == "1":
+                medical_history = input("Enter patient's new medical history (if any): ")
+                currPatient.update_medical_history(medical_history)
+            elif section_choice == "2":
+                curr_condition = input("Enter patient's new current condition (if any): ")
+                currPatient.currCondition = curr_condition
+            elif section_choice == "3":
+                doc_assigned = input("Enter doctor's name: ")
+                currPatient.docAssigned = doc_assigned
+            elif section_choice == "4":
+                appointment_details = input("Enter appointment details: ")
+                currPatient.appointmentDetails = appointment_details
+            elif section_choice == "5":
+                medication = input("Enter new medication: ")
+                currPatient.add_medication(medication)
+            else:
+                print("Invalid choice.")
+            updatedPatient = currPatient  # Set updatedPatient to the updated patient
+            # Ask the user if they want to update anything else
+            choice = input("Do you want to update anything else? (yes/no): ").lower()
+            if choice == "no":
+                break
+        tempQueue.enqueue(currPatient)  # Enqueue the current patient into the temporary queue
+    while not tempQueue.is_empty():
+        patientQueue.enqueue(tempQueue.dequeue())  # Re-enqueue patients from the temporary queue back into the patient queue
+    if updatedPatient:
+        print("Patient record updated successfully.")  # Print a success message if the patient was updated, otherwise print a failure message
+    else:
+        if not found_patient:
+            print("Patient not found.")  # Print a failure message if the patient was not found.
+
