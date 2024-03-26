@@ -106,6 +106,8 @@ class PrescriptionStack:
 
 
 
+
+
 # Add New Patient Record Function
 def addPatientRec(patient, patientQueue):
     patientQueue.enqueue(patient)  # Enqueue the new patient into the patient queue
@@ -170,4 +172,56 @@ def updatePatient(patient, patientQueue):
     else:
         if not found_patient:
             print("Patient not found.")  # Print a failure message if the patient was not found.
+
+
+# Schedule Appointment Function
+def scheAppoint(patient, doctor, appointment_time):
+    patient.appointmentDetails = (doctor.name, appointment_time)  # Set the patient's appointment details
+    print("Appointment scheduled successfully.")  # Print a success message
+
+# Issue Prescription Function
+def issuPrescription(patient, prescStack, prescription):
+    patient.medications.append(prescription)  # Add the prescription to the patient's medications
+    prescStack.push(prescription)  # Push the prescription onto the prescription stack
+    print("Prescription issued successfully.")  # Print a success message
+
+# Search Patient Function
+def searPatient(patientName, patientQueue):
+    found = False  # Initialize a flag to track if the patient was found
+    while not patientQueue.isEmpty():
+        currPatient = patientQueue.dequeue()  # Dequeue the current patient
+        if currPatient.name == patientName:  # Check if the current patient matches the provided patient name
+            found = True  # Set found flag to True
+            print("Patient Name:", currPatient.name)  # Print the patient's name
+            print("Date of Birth:", currPatient.dob)  # Print the patient's date of birth
+            print("Contact Info:", currPatient.contactInfo)  # Print the patient's contact info
+            print("Medical History:", currPatient.medicalHistory)  # Print the patient's medical history
+            print("Current Condition:", currPatient.currCondition)  # Print the patient's current condition
+            print("Doctor Assigned:", currPatient.docAssigned)  # Print the doctor assigned to the patient
+            print("Appointment Details:", currPatient.appointmentDetails)  # Print the patient's appointment details
+            print("Medications:", currPatient.medications)  # Print the patient's medications
+            break  # Break out of the loop
+    if not found:
+        print("Patient not found.")  # Print a failure message if the patient was not found.
+
+
+
+
+
+# Define the function to remove a patient record
+def removePatientRec(patientName, patientQueue):
+    tempQueue = Queue()  # Initialize a temporary queue
+    found = False  # Flag to track if the patient was found
+    while not patientQueue.isEmpty():
+        currPatient = patientQueue.dequeue()  # Dequeue the current patient
+        if currPatient.name == patientName:  # Check if the current patient matches the provided patient name
+            found = True  # Set found flag to True
+            print("Patient record removed successfully.")
+        else:
+            tempQueue.enqueue(currPatient)  # Enqueue patients other than the one to be removed into the temporary queue
+    if not found:
+        print("Patient not found.")  # Print a failure message if the patient was not found.
+    # Re-enqueue patients from the temporary queue back into the patient queue
+    while not tempQueue.isEmpty():
+        patientQueue.enqueue(tempQueue.dequeue())
 
