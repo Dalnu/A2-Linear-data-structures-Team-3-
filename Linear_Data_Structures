@@ -254,3 +254,26 @@ def removePatientRec(patientName, patientQueue):
     while not tempQueue.isEmpty():
         patientQueue.enqueue(tempQueue.dequeue())
 
+
+# Function to add a patient to the consultation queue
+def add_to_consultation_queue(patient_name, patient_queue, consultation_queue):
+    found_patient = False
+    for patient in patient_queue:
+        if patient.name == patient_name:
+            found_patient = True
+            consultation_queue.enqueue(patient)
+            print("Patient added to consultation queue successfully.")
+            break
+    if not found_patient:
+        print("Patient not found. Please check the name and try again.")
+
+# Function to consult the next patient in the consultation queue
+def consult_all_patients(consultation_queue):
+    consulted_patients = []
+    while not consultation_queue.isEmpty():
+        next_patient = consultation_queue.dequeue()
+        consulted_patients.append(next_patient)
+    return consulted_patients
+
+patientQueue = Queue()
+consultationQueue = ConsultationQueue()
