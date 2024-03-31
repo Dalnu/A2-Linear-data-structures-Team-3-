@@ -292,14 +292,15 @@ services = {
     "9": "Exit the program"
 }
 
-
+# Main function to run the program
 def main():
     prescStack = PrescriptionStack()  # Initialize the prescription stack
     while True:
-        choice = Services()
+        choice = Services()  # Get user choice for service
         if not process_choice(choice, prescStack):
             break
 
+# Function to display available services and get user choice
 def Services():
     print("Available Services:")
     for key, value in services.items():
@@ -312,7 +313,7 @@ def Services():
         else:
             print("Invalid choice. Please enter a number between 1 and 9.")
 
-
+# Function to process user choice and execute corresponding service
 def process_choice(choice, prescStack):
     if choice == "1":
         # Service 1: Add a new patient record
