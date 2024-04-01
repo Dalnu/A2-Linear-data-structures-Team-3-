@@ -1,30 +1,33 @@
 class Doctor:
     """Class represent a doctor"""
     def __init__(self, name, specialization):
-        self.name = name  # Initialize the name attribute of the doctor
-        self.specialization = specialization  # Initialize the specialization attribute of the doctor
+        self._name = name  # Initialize the name attribute of the doctor
+        self.__specialization = specialization  # Initialize the specialization attribute of the doctor
+
+    def get_specialization(self):
+        return self.__specialization  # Getter method to access specialization attribute
 
 # Define the PatientRec class to represent patient records
 class PatientRec:
     """Class represent the patient records"""
-    def __init__(self, name, dob, contactInfo, medicalHistory = None, currCondition = None, docAssigned = None, appointmentDetails = None, medications = None):
+
+    def __init__(self, name, dob, contactInfo, medicalHistory=None, currCondition=None, docAssigned=None,
+                 appointmentDetails=None, medications=None):
         # Initialize patient attributes
-        self.name = name  # Patient's name
-        self.dob = dob  # Patient's date of birth
-        self.contactInfo = contactInfo  # Patient's contact information
-        self.medicalHistory = medicalHistory if medicalHistory else []  # Patient's medical history
-        self.currCondition = currCondition  # Patient's current medical condition
-        self.docAssigned = docAssigned  # Doctor assigned to the patient
-        self.appointmentDetails = appointmentDetails  # Details of the patient's appointment
-        self.medications = medications if medications else []  # Medications prescribed to the patient
+        self._name = name  # Patient's name
+        self._dob = dob  # Patient's date of birth
+        self._contactInfo = contactInfo  # Patient's contact information
+        self._medicalHistory = medicalHistory if medicalHistory else []  # Patient's medical history
+        self._currCondition = currCondition  # Patient's current medical condition
+        self._docAssigned = docAssigned  # Doctor assigned to the patient
+        self._appointmentDetails = appointmentDetails  # Details of the patient's appointment
+        self._medications = medications if medications else []  # Medications prescribed to the patient
 
-    # Method to update the patient's medical history
     def update_medical_history(self, new_entry):
-        self.medicalHistory.append(new_entry)
+        self._medicalHistory.append(new_entry)  # Updating medical history
 
-    # Method to add a medication to the patient's prescription list
     def add_medication(self, medication):
-        self.medications.append(medication)
+        self._medications.append(medication)  # Adding medication
 
 # Define the Node class for the queue implementation
 class Node:
@@ -39,42 +42,38 @@ class Queue:
     """Class represent a queue"""
     def __init__(self):
         # Initialize the queue with front and rear pointers
-        self.front = None  # Pointer to the front of the queue
-        self.rear = None  # Pointer to the rear of the queue
+        self._front = None  # Pointer to the front of the queue
+        self._rear = None  # Pointer to the rear of the queue
 
-    # Method to enqueue (add) data to the queue
     def enqueue(self, data):
         new_node = Node(data)  # Create a new node with the given data
-        if self.rear is None:
+        if self._rear is None:
             # If the queue is empty, set both front and rear to the new node
-            self.front = self.rear = new_node
+            self._front = self._rear = new_node
             return
         # Otherwise, add the new node to the rear of the queue and update the rear pointer
-        self.rear.next = new_node
-        self.rear = new_node
+        self._rear.next = new_node
+        self._rear = new_node
 
-    # Method to dequeue (remove) data from the queue
     def dequeue(self):
-        if self.front is None:
+        if self._front is None:
             # If the queue is empty, return None
             return None
-        temp = self.front  # Store the front node
-        self.front = temp.next  # Move the front pointer to the next node
-        if self.front is None:
+        temp = self._front  # Store the front node
+        self._front = temp.next  # Move the front pointer to the next node
+        if self._front is None:
             # If the queue becomes empty after dequeue, update the rear pointer to None
-            self.rear = None
+            self._rear = None
         return temp.data  # Return the data of the dequeued node
 
-    # Method to peek at the front element of the queue
     def peek(self):
-        return self.front.data if self.front else None  # Return the data of the front node if it exists
+        return self._front.data if self._front else None  # Return the data of the front node if it exists
 
-    # Method to check if the queue is empty
     def isEmpty(self):
-        return self.front is None  # Return True if the front pointer is None, indicating an empty queue
-    # Method to make the queue iterable
+        return self._front is None  # Return True if the front pointer is None, indicating an empty queue
+
     def __iter__(self):
-        current = self.front
+        current = self._front
         while current:
             yield current.data
             current = current.next
@@ -83,56 +82,55 @@ class Queue:
 class PrescriptionStack:
     def __init__(self):
         # Initialize the stack with an empty list
-        self.stack = []
+        self._stack = []
 
-    # Method to push a prescription onto the stack
     def push(self, prescription):
-        self.stack.append(prescription)  # Append the prescription to the stack
+        self._stack.append(prescription)  # Append the prescription to the stack
 
-    # Method to pop (remove and return) the top prescription from the stack
     def pop(self):
         if self.is_empty():
             # If the stack is empty, return None
             return None
-        return self.stack.pop()  # Otherwise, pop and return the top prescription
+        return self._stack.pop()  # Otherwise, pop and return the top prescription
 
-    # Method to peek at the top prescription of the stack without removing it
     def peek(self):
-        return self.stack[-1] if not self.is_empty() else None  # Return the top prescription if the stack is not empty
+        return self._stack[-1] if not self.is_empty() else None  # Return the top prescription if the stack is not empty
 
-    # Method to check if the stack is empty
-    def isEmpty(self):
-        return len(self.stack) == 0  # Return True if the stack is empty, False otherwise
-
+    def is_empty(self):
+        return len(self._stack) == 0  # Return True if the stack is empty, False otherwise
 
 class ConsultationQueue:
     """Class represent the queue for managing patient consultations"""
+
     def __init__(self):
-        self.front = None
-        self.rear = None
+        self._front = None
+        self._rear = None
 
     def enqueue(self, patient):
         new_node = Node(patient)
-        if self.rear is None:
-            self.front = self.rear = new_node
+        if self._rear is None:
+            self._front = self._rear = new_node
             return
-        self.rear.next = new_node
-        self.rear = new_node
+        self._rear.next = new_node
+        self._rear = new_node
 
     def dequeue(self):
-        if self.front is None:
+        if self._front is None:
             return None
-        temp = self.front
-        self.front = temp.next
-        if self.front is None:
-            self.rear = None
+        temp = self._front
+        self._front = temp.next
+        if self._front is None:
+            self._rear = None
         return temp.data
 
     def peek(self):
-        return self.front.data if self.front else None
+        return self._front.data if self._front else None
 
     def isEmpty(self):
-        return self.front is None
+        return self._front is None
+
+#.......................................................................................
+
 
 
 
@@ -144,22 +142,22 @@ def addPatientRec(patient, patientQueue):
 
 # Update Patient Record Function
 def updatePatient(patient, patientQueue):
-    updatedPatient = None  # Initialize updatedPatient to None
-    tempQueue = Queue()  # Initialize a temporary queue
-    found_patient = False  # Flag to track if the patient was found
+    updatedPatient = None
+    tempQueue = Queue()
+    found_patient = False
     while not patientQueue.is_empty():
-        currPatient = patientQueue.dequeue()  # Dequeue the current patient
-        if currPatient.name == patient.name:  # Check if the current patient matches the provided patient
-            found_patient = True  # Set found_patient flag to True
+        currPatient = patientQueue.dequeue()
+        if currPatient._name == patient._name:
+            found_patient = True
             print("Patient found. Here is the information:")
-            print("Name:", currPatient.name)
-            print("Date of Birth:", currPatient.dob)
-            print("Contact Info:", currPatient.contactInfo)
-            print("Medical History:", currPatient.medicalHistory)
-            print("Current Condition:", currPatient.currCondition)
-            print("Doctor Assigned:", currPatient.docAssigned)
-            print("Appointment Details:", currPatient.appointmentDetails)
-            print("Medications:", currPatient.medications)
+            print("Name:", currPatient._name)
+            print("Date of Birth:", currPatient._dob)
+            print("Contact Info:", currPatient._contactInfo)
+            print("Medical History:", currPatient._medicalHistory)
+            print("Current Condition:", currPatient._currCondition)
+            print("Doctor Assigned:", currPatient._docAssigned)
+            print("Appointment Details:", currPatient._appointmentDetails)
+            print("Medications:", currPatient._medications)
 
             # Prompt user to select the section to update
             print("\nWhich section would you like to update?")
@@ -194,7 +192,7 @@ def updatePatient(patient, patientQueue):
             if choice == "no":
                 break
         tempQueue.enqueue(currPatient)  # Enqueue the current patient into the temporary queue
-    while not tempQueue.is_empty():
+    while not tempQueue.isEmpty():
         patientQueue.enqueue(tempQueue.dequeue())  # Re-enqueue patients from the temporary queue back into the patient queue
     if updatedPatient:
         print("Patient record updated successfully.")  # Print a success message if the patient was updated, otherwise print a failure message
@@ -202,39 +200,36 @@ def updatePatient(patient, patientQueue):
         if not found_patient:
             print("Patient not found.")  # Print a failure message if the patient was not found.
 
-
 # Schedule Appointment Function
 def scheAppoint(patient, doctor, appointment_time):
-    patient.appointmentDetails = (doctor.name, appointment_time)  # Set the patient's appointment details
+    patient.appointmentDetails = (doctor._name, appointment_time)  # Set the patient's appointment details
     print("Appointment scheduled successfully.")  # Print a success message
 
 # Issue Prescription Function
 def issuPrescription(patient, prescStack, prescription):
-    patient.medications.append(prescription)  # Add the prescription to the patient's medications
+    patient._medications.append(prescription)  # Add the prescription to the patient's medications
     prescStack.push(prescription)  # Push the prescription onto the prescription stack
     print("Prescription issued successfully.")  # Print a success message
 
 # Search Patient Function
 def searPatient(patientName, patientQueue):
     found = False  # Initialize a flag to track if the patient was found
+    patientName = patientName.lower()  # Convert input name to lowercase for case-insensitive comparison
     while not patientQueue.isEmpty():
         currPatient = patientQueue.dequeue()  # Dequeue the current patient
-        if currPatient.name == patientName:  # Check if the current patient matches the provided patient name
+        if currPatient._name.lower() == patientName:  # Compare lowercase patient names
             found = True  # Set found flag to True
-            print("Patient Name:", currPatient.name)  # Print the patient's name
-            print("Date of Birth:", currPatient.dob)  # Print the patient's date of birth
-            print("Contact Info:", currPatient.contactInfo)  # Print the patient's contact info
-            print("Medical History:", currPatient.medicalHistory)  # Print the patient's medical history
-            print("Current Condition:", currPatient.currCondition)  # Print the patient's current condition
-            print("Doctor Assigned:", currPatient.docAssigned)  # Print the doctor assigned to the patient
-            print("Appointment Details:", currPatient.appointmentDetails)  # Print the patient's appointment details
-            print("Medications:", currPatient.medications)  # Print the patient's medications
+            print("Patient Name:", currPatient._name)  # Print the patient's name
+            print("Date of Birth:", currPatient._dob)  # Print the patient's date of birth
+            print("Contact Info:", currPatient._contactInfo)  # Print the patient's contact info
+            print("Medical History:", currPatient._medicalHistory)  # Print the patient's medical history
+            print("Current Condition:", currPatient._currCondition)  # Print the patient's current condition
+            print("Doctor Assigned:", currPatient._docAssigned)  # Print the doctor assigned to the patient
+            print("Appointment Details:", currPatient._appointmentDetails)  # Print the patient's appointment details
+            print("Medications:", currPatient._medications)  # Print the patient's medications
             break  # Break out of the loop
     if not found:
         print("Patient not found.")  # Print a failure message if the patient was not found.
-
-
-
 
 
 # Define the function to remove a patient record
@@ -243,7 +238,7 @@ def removePatientRec(patientName, patientQueue):
     found = False  # Flag to track if the patient was found
     while not patientQueue.isEmpty():
         currPatient = patientQueue.dequeue()  # Dequeue the current patient
-        if currPatient.name == patientName:  # Check if the current patient matches the provided patient name
+        if currPatient._name == patientName:  # Check if the current patient matches the provided patient name
             found = True  # Set found flag to True
             print("Patient record removed successfully.")
         else:
@@ -258,14 +253,16 @@ def removePatientRec(patientName, patientQueue):
 # Function to add a patient to the consultation queue
 def add_to_consultation_queue(patient_name, patient_queue, consultation_queue):
     found_patient = False
+    patient_name = patient_name.lower()  # Convert input name to lowercase for case-insensitive comparison
     for patient in patient_queue:
-        if patient.name == patient_name:
+        if patient._name.lower() == patient_name:  # Compare lowercase patient names
             found_patient = True
             consultation_queue.enqueue(patient)
             print("Patient added to consultation queue successfully.")
             break
     if not found_patient:
         print("Patient not found. Please check the name and try again.")
+
 
 # Function to consult the next patient in the consultation queue
 def consult_all_patients(consultation_queue):
@@ -277,8 +274,6 @@ def consult_all_patients(consultation_queue):
 
 patientQueue = Queue()
 consultationQueue = ConsultationQueue()
-
-
 # Define the available services
 services = {
     "1": "Add a new patient record",
@@ -292,33 +287,32 @@ services = {
     "9": "Exit the program"
 }
 
-# Main function to run the program
+
 def main():
     prescStack = PrescriptionStack()  # Initialize the prescription stack
     while True:
-        choice = Services()  # Get user choice for service
+        choice = Services()
         if not process_choice(choice, prescStack):
             break
 
-# Function to display available services and get user choice
 def Services():
-    print("Available Services:")
+    print("\nAvailable Services:")
     for key, value in services.items():
         print(f"{key}. {value}")
 
     while True:
-        choice = input("Please select a service (1-9): ")
+        choice = input("\nPlease select a service (1-9): ")
         if choice.isdigit() and 1 <= int(choice) <= 9:
             return choice
         else:
             print("Invalid choice. Please enter a number between 1 and 9.")
 
-# Function to process user choice and execute corresponding service
+
 def process_choice(choice, prescStack):
     if choice == "1":
         # Service 1: Add a new patient record
         print("Service 1: Add a new patient record")
-        name = input("Enter patient's name: ")
+        name = input("\nEnter patient's name: ")
         dob = input("Enter patient's date of birth (YYYY-MM-DD): ")
         contact_info = input("Enter patient's contact information: ")
         new_patient = PatientRec(name, dob, contact_info)
@@ -326,21 +320,21 @@ def process_choice(choice, prescStack):
     elif choice == "2":
         # Service 2: Update an existing patient record
         print("Service 2: Update an existing patient record")
-        name = input("Enter patient's name to update record: ")
+        name = input("\nEnter patient's name to update record: ")
         found_patient = False
         # Search for the patient in the queue
         for patient in patientQueue:
-            if patient.name == name:
+            if patient._name == name:
                 found_patient = True
                 print("Patient found. Here is the information:")
-                print("Name:", patient.name)
-                print("Date of Birth:", patient.dob)
-                print("Contact Info:", patient.contactInfo)
-                print("Medical History:", patient.medicalHistory)
-                print("Current Condition:", patient.currCondition)
-                print("Doctor Assigned:", patient.docAssigned)
-                print("Appointment Details:", patient.appointmentDetails)
-                print("Medications:", patient.medications)
+                print("Name:", patient._name)
+                print("Date of Birth:", patient._dob)
+                print("Contact Info:", patient._contactInfo)
+                print("Medical History:", patient._medicalHistory)
+                print("Current Condition:", patient._currCondition)
+                print("Doctor Assigned:", patient._docAssigned)
+                print("Appointment Details:", patient._appointmentDetails)
+                print("Medications:", patient._medications)
 
                 # Prompt user to select the section to update
                 print("\nWhich section would you like to update?")
@@ -373,17 +367,17 @@ def process_choice(choice, prescStack):
                 break
 
         if not found_patient:
-            print("Patient not found. Please add a new patient.")
+            print("Patient not found.")
 
     elif choice == "3":
         # Service 3: Remove an existing patient record
         print("Service 3: Remove an existing patient record")
-        name = input("Enter patient's name to remove record: ")
+        name = input("\nEnter patient's name to remove record: ")
         removePatientRec(name, patientQueue)
     elif choice == "4":
         # Service 4: Schedule an appointment for a patient
         print("Service 4: Schedule an appointment for a patient")
-        name = input("Enter patient's name to schedule appointment: ")
+        name = input("\nEnter patient's name to schedule appointment: ")
         doctor_name = input("Enter doctor's name: ")
         doctor_specialization = input("Enter doctor's specialization: ")  # Ask for doctor's specialization
 
@@ -414,45 +408,53 @@ def process_choice(choice, prescStack):
     elif choice == "5":
         # Service 5: Issue a prescription to a patient
         print("Service 5: Issue a prescription to a patient")
-        name = input("Enter patient's name to issue prescription: ")
-        prescription = input("Enter prescription: ")
-        patient = PatientRec(name, "", "")  # Create a patient object
-        issuPrescription(patient, prescStack, prescription)
+        patient_name = input("\nEnter patient's name: ")
+        prescription = input("Enter prescription details: ")
+
+        # Find the patient in the queue
+        found_patient = False
+
+        for patient in patientQueue:
+            if patient._name == patient_name:
+                found_patient = True
+                issuPrescription(patient, prescStack, prescription)
+                break
+        if not found_patient:
+            print("Patient not found. Please check the name and try again.")
+
     elif choice == "6":
         # Service 6: Search for a patient and display patient summary
         print("Service 6: Search for a patient and display patient summary")
-        name = input("Enter patient's name to search: ")
-        searPatient(name, patientQueue)
+        patient_name = input("\nEnter patient's name: ")
+        searPatient(patient_name, patientQueue)
     elif choice == "7":
+        # Service 7: Add patient to consultation queue
         print("Service 7: Add patient to consultation queue")
-        name = input("Enter patient's name to add to consultation queue: ")
-        add_to_consultation_queue(name, patientQueue, consultationQueue)
+        patient_name = input("\nEnter patient's name: ")
+        add_to_consultation_queue(patient_name, patientQueue, consultationQueue)
     elif choice == "8":
-        print("Service 8: Consult all patients")
+        # Service 8: Consult next patient
+        print("Service 8: Consult next patient")
         consulted_patients = consult_all_patients(consultationQueue)
-        if consulted_patients:
-            print("Consulting all patients:")
-            for i, patient in enumerate(consulted_patients, start=1):
-                print(f"Patient {i}:")
-                print("Name:", patient.name)
-                print("Date of Birth:", patient.dob)
-                print("Contact Info:", patient.contactInfo)
-                print("Medical History:", patient.medicalHistory)
-                print("Current Condition:", patient.currCondition)
-                print("Doctor Assigned:", patient.docAssigned)
-                print("Appointment Details:", patient.appointmentDetails)
-                print("Medications:", patient.medications)
-                print()
+        if not consulted_patients:
+            print("No patients found in the consultation queue.")
         else:
-            print("No patients in the consultation queue.")
-
+            print("Patients Consulted:")
+            for patient in consulted_patients:
+                print("Name:", patient._name)
+                print("Date of Birth:", patient._dob)
+                print("Contact Info:", patient._contactInfo)
+                print("Medical History:", patient._medicalHistory)
+                print("Current Condition:", patient._currCondition)
+                print("Doctor Assigned:", patient._docAssigned)
+                print("Appointment Details:", patient._appointmentDetails)
+                print("Medications:", patient._medications)
+                print()
     elif choice == "9":
-        print("Exiting the program.")
+        # Service 9: Exit the program
+        print("Exiting program. Thank you!")
         return False
-    else:
-        print("Invalid choice. Please select a valid option.")
     return True
 
-# Start the program
 if __name__ == "__main__":
     main()
