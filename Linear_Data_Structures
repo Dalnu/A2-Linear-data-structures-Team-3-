@@ -131,10 +131,6 @@ class ConsultationQueue:
 
 #.......................................................................................
 
-
-
-
-
 # Add New Patient Record Function
 def addPatientRec(patient, patientQueue):
     patientQueue.enqueue(patient)  # Enqueue the new patient into the patient queue
@@ -272,8 +268,11 @@ def consult_all_patients(consultation_queue):
         consulted_patients.append(next_patient)
     return consulted_patients
 
+#.......................................................................................
+
 patientQueue = Queue()
 consultationQueue = ConsultationQueue()
+
 # Define the available services
 services = {
     "1": "Add a new patient record",
