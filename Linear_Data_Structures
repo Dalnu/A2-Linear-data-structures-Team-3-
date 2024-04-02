@@ -1,3 +1,5 @@
+import datetime
+
 class Doctor:
     """Class represent a doctor"""
     def __init__(self, name, specialization):
@@ -312,10 +314,26 @@ def process_choice(choice, prescStack):
         # Service 1: Add a new patient record
         print("Service 1: Add a new patient record")
         name = input("\nEnter patient's name: ")
-        dob = input("Enter patient's date of birth (YYYY-MM-DD): ")
-        contact_info = input("Enter patient's contact information: ")
+        while True:
+            dob = input("Enter patient's date of birth (YYYY-MM-DD): ")
+            try:
+                datetime.datetime.strptime(dob, '%Y-%m-%d')
+                break  # Exit the loop if the format is valid
+            except ValueError:
+                print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+
+        # Validate phone number format
+        while True:
+            contact_info = input("Enter patient's contact information (Phone Number): ")
+            if len(contact_info) == 10 and contact_info.isdigit():
+                break  # Exit the loop if the format is valid
+            else:
+                print("Invalid phone number format. Please enter a 10-digit number.")
+
+        # Once a valid date of birth and phone number are entered, proceed with creating the patient record
         new_patient = PatientRec(name, dob, contact_info)
-        addPatientRec(new_patient, patientQueue)
+        patientQueue.enqueue(new_patient)  # Enqueue the new patient into the patient queue
+        print("Patient record added successfully.")
     elif choice == "2":
         # Service 2: Update an existing patient record
         print("Service 2: Update an existing patient record")
